@@ -15,6 +15,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from weixininterf import views as wechatinterf_views #new
+from weixinquery import views as weixinquery_views
 
 urlpatterns = [
 	 url(r'^$',wechatinterf_views.wechat_home), #new
