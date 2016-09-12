@@ -17,6 +17,7 @@ from django.contrib import admin
 from weixininterf import views as wechatinterf_views #new
 
 urlpatterns = [
-	url(r'^$',wechatinterf_views.index), #new
+	 url(r'^$',wechatinterf_views.wechat_home), #new
+	 url(r'^query/',weixinquery_views.home),
     url(r'^admin/', include(admin.site.urls)),
 ]
