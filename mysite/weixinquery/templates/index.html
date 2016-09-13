@@ -5,46 +5,350 @@
 		<meta name="viewport" content="initial-scale=1.0,width=device-width" />
 		<title>拉勾网查询</title>
 		<!--CSS START-->
-		<link href="css/Default.css" rel="stylesheet" type="text/css" />
+		<!-- <link href="css/Default.css" rel="stylesheet" type="text/css" /> -->
+		<style type="text/css">
+			* {
+		    	padding: 0;
+		    	margin: 0;
+		        border: 0;
+			}
+			html,body{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+				font: 12px/1.5 "Microsoft Yahei", "Calibri";
+			    width: 100%;
+			}
+
+			a{
+			    text-decoration: underline;
+			    color: #00b38a;
+			}
+
+			/*==============选项菜单=============*/
+			#container{
+			    width: 60%;
+			    margin: 0 auto;
+			    padding: 20px 10%;
+			    background-color: #ffffff;
+			    min-height: 500px;
+			}
+
+			.select-group >span,.select-group >select {
+			    font-size: 16px;
+			    margin-left: 5px;
+			}
+
+			.select-group >span{
+			    display: inline-block;
+			    color: #ffffff;
+			    padding: 5px;
+			    background-color: #00b38a;
+			    border-radius: 3px;
+			}
+
+			.select-group{
+			    padding: 10px 0;
+			}
+
+			.query-button{
+			    font-size: 18px;
+			    font-weight: 700;
+			    color: #ffffff;
+			    width: 50%;
+			    height: 24px;
+			    border-radius: 5px;
+			    background-color: #00b38a;
+			    margin: 25px 25% 0;
+			}
+
+			/*===========工作概括内容============*/
+			#content{
+			    width: 80%;
+			    margin: 0 auto;
+			    padding: 20px 0;
+			    background-color: #ffffff;
+			}
+
+			.job-content{
+			    font-size: 14px;
+			    margin-bottom: 10px;
+			    padding: 10px 5px;
+			    border: 1px solid rgba(237,237,237,0.8);
+			}
+
+			.job-content > .job{
+			    display: block;
+			}
+
+			.job-company-label{
+			    display: inline-block;
+			}
+
+			.job-nameAndLocation > a{
+			    font-size: 16px;
+			}
+
+			.job-company-name{
+			    color: #00b38a;
+			}
+
+			.job-salary{
+			    color: #fd5f39;
+			}
+
+			.job-company-label{
+			    font-size: 12px;
+			    padding:0 5px;
+			    margin-right: 5px;
+			    color: #ffffff;
+			    border-radius: 3px;
+			    background-color: #00b38a;
+			}
+
+			.no-result{
+			    width: 70%;
+			    margin: 0 15%;
+			}
+
+			.no-result >h2{
+			    color: #00b38a;
+			}
+		</style>
 		<!--CSS END-->
 		<!--JS START-->
-		<script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-		<script language="javascript" type="text/javascript" src="js/weixin.js"></script>
+		<!--<script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
+		<script type="application/javascript">
+			var city_data = {{ city|safe }};
+			var job_data = {{ job|safe }};
+			var other_parameter = {{ other_parameter|safe }};
+			var nature = ["不限","全职","兼职","实习"];
+			var pn = 1;
+			$(document).ready(function() {
+				//初始化渲染网页 
+				var select_name = ["工作城市","行政区","商区","工作种类","详细分类","工作","工作经验","学历要求","融资阶段","行业领域","月薪","工作性质"]
+				for (var sn=0;sn<select_name.length;sn++){
+					console.log(select_name[sn]);
+					var select_group = "<div class=\"select-group\"><span>"+ select_name[sn] +"</span><select name=\"job-category"+ sn +"\" class=\"select-default select"+ sn +"\"></select></div>"
+					$("#container").append(select_group);
+					if (select_name[sn] == "工作城市"){
+						$(".select0").append("<option value=\"全国\">全国</option>");
+						for (var city in city_data){	
+							$(".select0").append("<option value=\""+city+"\">"+city+"</option>");
+						}
+					}
+					else if(select_name[sn] == "工作种类"){
+						$(".select3").append("<option value=\"\"></option>");
+						for (var job_f in job_data){
+							$(".select3").append("<option value=\""+job_f+"\">"+job_f+"</option>");
+						}
+					}
+					else if(select_name[sn] == "工作经验"){
+						$(".select6").append("<option value=\"\"></option>");		
+						for (var job_exp in other_parameter.工作经验){
+							$(".select6").append("<option value=\""+other_parameter.工作经验[job_exp]+"\">"+other_parameter.工作经验[job_exp]+"</option>");	
+						}	
+					}
+					else if(select_name[sn] == "学历要求"){
+						$(".select7").append("<option value=\"\"></option>");		
+						for (var edu in other_parameter.学历要求){
+							$(".select7").append("<option value=\""+other_parameter.学历要求[edu]+"\">"+other_parameter.学历要求[edu]+"</option>");	
+						}	
+					}
+					else if(select_name[sn] == "融资阶段"){
+						$(".select8").append("<option value=\"\"></option>");		
+						for (var fs in other_parameter.融资阶段){
+							$(".select8").append("<option value=\""+other_parameter.融资阶段[fs]+"\">"+other_parameter.融资阶段[fs]+"</option>");	
+						}	
+					}
+					else if(select_name[sn] == "行业领域"){
+						$(".select9").append("<option value=\"\"></option>");		
+						for (var ifi in other_parameter.行业领域){
+							$(".select9").append("<option value=\""+other_parameter.行业领域[ifi]+"\">"+other_parameter.行业领域[ifi]+"</option>");	
+						}	
+					}
+					else if(select_name[sn] == "月薪"){
+						$(".select10").append("<option value=\"\"></option>");		
+						for (var salary in other_parameter.月薪){
+							$(".select10").append("<option value=\""+other_parameter.月薪[salary]+"\">"+other_parameter.月薪[salary]+"</option>");	
+						}	
+					}
+					else if(select_name[sn] == "工作性质"){	
+						for (var na in nature){
+							$(".select11").append("<option value=\""+nature[na]+"\">"+nature[na]+"</option>");	
+						}	
+					}  
+				}
+				$("#container").append("<button class=\"query-button\">查询</button>");
+				//根据选择渲染相关子select
+				$(".select0").change(function(event) {
+					$(".select1").empty();
+					/* Act on the event */
+					city_n = $(this).children('option:selected').val();
+					$(".select1").append("<option value=\"\"></option>");
+					for(var district in city_data[city_n]){
+						$(".select1").append("<option value=\""+district+"\">"+district+"</option>");
+					}
+				});
+				$(".select1").change(function(event) {
+					/* Act on the event */
+					$(".select2").empty();
+					city_n = $(".select0").children('option:selected').val();
+					district = $(this).children('option:selected').val();
+					if(district != "不限")
+					$(".select2").append("<option value=\"\"></option>");
+					for(var bz in city_data[city_n][district]){
+						$(".select2").append("<option value=\""+city_data[city_n][district][bz]+"\">"+city_data[city_n][district][bz]+"</option>");
+					}
+				});
+				$(".select3").change(function(event) {
+					$(".select4").empty();
+					/* Act on the event */
+					job_fn = $(this).children('option:selected').val();
+					for(var fn in job_data[job_fn]){
+						$(".select4").append("<option value=\""+fn+"\">"+fn+"</option>");
+					}
+				});
+				$(".select4").change(function(event) {
+					$(".select5").empty();
+					/* Act on the event */
+					job_fn = $(".select3").children('option:selected').val();
+					job_sn = $(this).children('option:selected').val();
+					for(var sn in job_data[job_fn][job_sn]){
+						$(".select5").append("<option value=\""+job_data[job_fn][job_sn][sn]+"\">"+job_data[job_fn][job_sn][sn]+"</option>");
+					}
+				});
+				//查询button点击事件
+				$(".query-button").click(function(event) {
+					/* Act on the event */
+					var data = {};
+					data["location"] = $(".select0").children('option:selected').val();
+					if (data["location"] != "全国"){
+						data["loc_adminarea"] = $(".select1").children('option:selected').val();
+						if(data["loc_adminarea"] != ""&&data["loc_adminarea"] != "不限"){
+							data["loc_busarea"] = $(".select2").children('option:selected').val();
+						}
+						else{
+							data["loc_busarea"] = "";
+						}
+					}
+					else{
+						data["loc_adminarea"] = "";
+						data["loc_busarea"] = "";
+					}
+					if($(".select3").children('option:selected').val() != ''){
+						data["job"] = $(".select5").children('option:selected').val();
+					}
+					else{
+						data["job"] = "";
+					}
+					if($(".select6").children('option:selected').val() != ''&&$(".select6").children('option:selected').val() != "不限"){
+						data["job_exp"] = $(".select6").children('option:selected').val();
+					}
+					else{
+						data["job_exp"] = "";
+					}
+					if($(".select7").children('option:selected').val() != ''&&$(".select7").children('option:selected').val() != "不限"){
+						data["edu"] = $(".select7").children('option:selected').val();
+					}
+					else{
+						data["edu"] = "";
+					}
+					if($(".select8").children('option:selected').val() != ''&&$(".select8").children('option:selected').val() != "不限"){
+						data["FinancingStage"] = $(".select8").children('option:selected').val();
+					}
+					else{
+						data["FinancingStage"] = "";
+					}
+					if($(".select9").children('option:selected').val() != ''&&$(".select9").children('option:selected').val() != "不限"){
+						data["IndustrySectors"] = $(".select9").children('option:selected').val();
+					}
+					else{
+						data["IndustrySectors"] = "";
+					}
+					if($(".select10").children('option:selected').val() != ''&&$(".select10").children('option:selected').val() != "不限"){
+						data["salary"] = $(".select10").children('option:selected').val();
+					}
+					else{
+						data["salary"] = "";
+					}
+					if($(".select11").children('option:selected').val() != "不限"){
+						data["job_nature"] = $(".select11").children('option:selected').val();
+					}
+					else{
+						data["job_nature"] = "";
+					}
+					data["pn"] = pn+""
+					$.getjson('/test/', data, function(json_content_s) {
+						json_content = $.eval("("+json_content_s+")")
+						/*optional stuff to do after success */
+						if (job_content[result] == []){
+							$("#content").append("<div class=\"no-result\"><h2>没有您想找的工作</h2></div>");
+						}
+						else:{
+							for (var d in json_content.result){
+								job_c = "<div class=\"job-content "+json_content.result[d]["positionId"]+"\"></div>";
+								$("#content").append(job_c);
+								$("."+json_content.result[d]["positionId"]).append("<span class=\"job job-nameAndLocation\"><a href=\"#\">"+json_content.result[d]["positionName"]+"["+json_content.result[d]["city"]+"]</a></span>");
+								$("."+json_content.result[d]["positionId"]).append("<span class=\"job job-company-name\">"+json_content.result[d]["companyFullName"]+"</span>");
+								$("."+json_content.result[d]["positionId"]).append("<span class=\"job job-company-ifAndFs\">"+json_content.result[d]["industryField"]+" / "+json_content.result[d]["financeStage"]+"</span>");
+								$("."+json_content.result[d]["positionId"]).append("<span class=\"job job-salary\">"+json_content.result[d]["salary"]+"</span>");
+								$("."+json_content.result[d]["positionId"]).append("<span class=\"job job-expAndEdu\">"+json_content.result[d]["workYear"]+" / "+json_content.result[d]["education"]+"</span>");
+								$("."+json_content.result[d]["positionId"]).append("<span class=\"job job-advantage\">"+json_content.result[d]["positionAdvantage"]+"</span>");
+								for (var job_d in json_content.result[d]["companyLabelList"]){
+									$("."+json_content.result[d]["positionId"]).append("<span class=\"job-company-label\">"+json_content.result[d]["companyLabelList"][job_d]+"</span>");
+								}
+
+							}
+
+						}
+						}
+							
+					});
+					// json_content = {
+					// 	"pn":"1",
+					// 	"result":[
+					// 		{
+					// 			"positionId": "123",         
+					//             "positionName":"java",        
+					//             "jobNature":"兼职",           
+					//             "workYear":"3-5年",            
+					//             "education":"大专",           
+					//             "financeStage":"天使轮",        
+					//             "industryField":"移动互联网",       
+					//             "city":"北京",                
+					//             "district":"",          
+					//             "businessZones":[],       
+					//             "salary":"2k-5k",              
+					//             "formatCreateTime":"",    
+					//             "createTime":"",          
+					//             "companyShortName":"",    
+					//             "companyFullName":"北京鲜柚科技有限公司",     
+					//             "positionAdvantage":"温馨团队、福利待遇完善、与大牛并肩作战",   
+					//             "companyLabelList":[
+					//             	"节日礼物",
+					//             	"带薪年假",
+					//             	"绩效奖金",
+					//             	"岗位晋升"
+					//             ],       
+					// 		},
+					// 	]
+					// }
+					// console.log(json_content.result[0]["positionId"])
+
+				});
+
+			});
+		</script>
 		<!--JS END-->
 	</head>
 	<body>
 		<div id="container">
-			<div class="select-group">
-				<span>工作种类</span>
-				<select name="job-category1" class="select-default">
-					<option value="">技术</option>
-					<option value="">产品</option>
-					<option value="">运营</option>
-					<option value="">市场与销售</option>
-				</select>
-			</div>
-			<div class="select-group">
-				<span>工作种类</span>
-				<select name="job-category1" class="select-default">
-					<option value="">技术</option>
-					<option value="">产品</option>
-					<option value="">运营</option>
-					<option value="">市场与销售</option>
-				</select>
-			</div>
-			<div class="select-group">
-				<span>工作种类</span>
-				<select name="job-category1" class="select-default">
-					<option value="">技术</option>
-					<option value="">产品</option>
-					<option value="">运营</option>
-					<option value="">视觉设计经理/主管</option>
-				</select>
-			</div>
-			<button class="query-button">查询</button>
 		</div>
 		<div id="content">
-			<div class="job-content">
+			<!-- <div class="job-content">
 				<span class="job job-nameAndLocation"><a href="#">广告优化师[北京]</a></span>
 				<span class="job job-company-name">北京鲜柚科技有限公司</span>
 				<span class="job job-company-ifAndFs">移动互联网,游戏 / 成长型</span>
@@ -55,7 +359,7 @@
 				<span class="job-company-label">五险一金</span>
 				<span class="job-company-label">五险一金</span>
 				<span class="job-company-label">五险一金</span>
-			</div>
+			</div> -->
 			<div class="no-result">
 				<h2>没有您想找的工作</h2>
 			</div>

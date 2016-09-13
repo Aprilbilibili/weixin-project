@@ -18,7 +18,8 @@ from weixininterf import views as wechatinterf_views #new
 from weixinquery import views as weixinquery_views
 
 urlpatterns = [
-	 url(r'^$',wechatinterf_views.wechat_home), #new
-	 url(r'^query/',weixinquery_views.home),
+	url(r'^query/test/',include('spiderLagou.urls')),
+	url(r'^$',wechatinterf_views.wechat_home), #new
+	url(r'^query/',weixinquery_views.home),	 
     url(r'^admin/', include(admin.site.urls)),
 ]
