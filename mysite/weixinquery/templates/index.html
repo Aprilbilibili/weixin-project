@@ -282,12 +282,12 @@
 					}
 					data["pn"] = pn+""
 					$.getjson('/test/', data, function(json_content_s) {
-						json_content = $.eval("("+json_content_s+")")
+						json_content = eval("("+json_content_s+")")
 						/*optional stuff to do after success */
-						if (job_content[result] == []){
+						if (json_content["result"] == []){
 							$("#content").append("<div class=\"no-result\"><h2>没有您想找的工作</h2></div>");
 						}
-						else:{
+						else{
 							for (var d in json_content.result){
 								job_c = "<div class=\"job-content "+json_content.result[d]["positionId"]+"\"></div>";
 								$("#content").append(job_c);
@@ -304,8 +304,6 @@
 							}
 
 						}
-						}
-							
 					});
 					// json_content = {
 					// 	"pn":"1",
@@ -367,3 +365,4 @@
 
 	</body>
 </html>
+
