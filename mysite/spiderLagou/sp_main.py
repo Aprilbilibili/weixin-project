@@ -13,7 +13,7 @@ class SpiderMain(object):
         reload(sys)
         sys.setdefaultencoding('utf-8')
         qs = {
-            'job': 'Java',
+            'job': 'Python',
             'job_nature': '',
             'job_exp' : '',
             'edu' : '',
@@ -25,31 +25,13 @@ class SpiderMain(object):
             'salary': ''
         }
         pn = '1'
-        kd = 'Java'
+        kd = qs['job']
 
         json_response = {
             'pn' : '',
             'result':[]
         }
-        data = {
-            "positionId": "",         
-            "positionName":"",        
-            "jobNature":"",           
-            "workYear":"",            
-            "education":"",           
-            "financeStage":"",        
-            "industryField":"",       
-            "city":"",               
-            "district":"",            
-            "salary":"",              
-            "formatCreateTime":"",    
-            "createTime":"",          
-            "companyShortName":"",    
-            "companyFullName":"",     
-            "positionAdvantage":"",   
-            "companyLabelList":[],    
-            "jobDescription":[]       
-        }
+      
 
         kd = qs['job']
         para = self.urlCreator.Create_para(qs)
@@ -63,6 +45,7 @@ class SpiderMain(object):
             return  json_response
         else:
             for rn in result['result']:
+		data = {}
                 data["positionId"] = str(rn["positionId"])
                 data["positionName"] = rn["positionName"]
                 data["jobNature"] = rn["jobNature"]

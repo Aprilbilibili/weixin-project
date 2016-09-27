@@ -33,7 +33,7 @@ def wechat_home(request):
                wechat_instance.parse_data(request.body)
                message = wechat_instance.get_message()
                if isinstance(message, TextMessage):
-                   reply_text = '13020031069 liutianfeng'
+                   reply_text = 'http://123.206.8.219/query/'
                elif isinstance(message, VoiceMessage):
                    reply_text = '13020031069 liutianfeng'
                elif isinstance(message, ImageMessage):

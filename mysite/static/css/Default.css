@@ -1,0 +1,107 @@
+* {
+      padding: 0;
+      margin: 0;
+      border: 0;
+}
+html,body{
+	margin: 0;
+	padding: 0;
+}
+body{
+	font: 12px/1.5 "Microsoft Yahei", "Calibri";
+    width: 100%;
+}
+
+a{
+    text-decoration: underline;
+    color: #00b38a;
+}
+
+/*==============选项菜单=============*/
+#container{
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px 10%;
+    background-color: #ffffff;
+    min-height: 500px;
+}
+
+.select-group >span,.select-group >select {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.select-group >span{
+    display: inline-block;
+    color: #ffffff;
+    padding: 5px;
+    background-color: #00b38a;
+    border-radius: 3px;
+}
+
+.select-group{
+    padding: 10px 0;
+}
+
+.query-button{
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    width: 50%;
+    height: 24px;
+    border-radius: 5px;
+    background-color: #00b38a;
+    margin: 25px 25% 0;
+}
+
+/*===========工作概括内容============*/
+#content{
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px 0;
+    background-color: #ffffff;
+}
+
+.job-content{
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding: 10px 5px;
+    border: 1px solid rgba(237,237,237,0.8);
+}
+
+.job-content > .job{
+    display: block;
+}
+
+.job-company-label{
+    display: inline-block;
+}
+
+.job-nameAndLocation > a{
+    font-size: 16px;
+}
+
+.job-company-name{
+    color: #00b38a;
+}
+
+.job-salary{
+    color: #fd5f39;
+}
+
+.job-company-label{
+    font-size: 12px;
+    padding:0 5px;
+    color: #ffffff;
+    border-radius: 3px;
+    background-color: #00b38a;
+}
+
+.no-result{
+    width: 70%;
+    margin: 0 15%;
+}
+
+.no-result >h2{
+    color: #00b38a;
+}
